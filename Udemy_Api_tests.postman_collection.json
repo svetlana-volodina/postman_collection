@@ -1,0 +1,479 @@
+{
+	"info": {
+		"_postman_id": "0992c0c8-edc3-4994-bb00-66f69add1731",
+		"name": "Udemy_Api_tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://swapi.dev/api/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1. Correct response format JSON\r",
+							"pm.test(\"Correct response format JSON\", function() {\r",
+							"    pm.response.to.have.jsonBody()\r",
+							"});\r",
+							"\r",
+							"//2. We have all the declared fields in the response\r",
+							"pm.test('Check that we have all the declared fields', function(){\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('people');\r",
+							"    pm.expect(jsonData).to.have.property('planets');\r",
+							"    pm.expect(jsonData).to.have.property('films');\r",
+							"    pm.expect(jsonData).to.have.property('species');\r",
+							"    pm.expect(jsonData).to.have.property('vehicles');\r",
+							"    pm.expect(jsonData).to.have.property('starships');\r",
+							"});\r",
+							"//3. Field value is not NULL\r",
+							"pm.test('Check if value is not NULL', function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.people).not.equal();\r",
+							"    pm.expect(jsonData.planets).not.equal();\r",
+							"    pm.expect(jsonData.films).not.equal();\r",
+							"    pm.expect(jsonData.species).not.equal();\r",
+							"    pm.expect(jsonData.vehicles).not.equal();\r",
+							"    pm.expect(jsonData.starships).not.equal();\r",
+							"});\r",
+							"//4. Check if value is not empty\r",
+							"pm.test('Check if value is not empty', function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.people).not.equal('');\r",
+							"    pm.expect(jsonData.planets).not.equal('');\r",
+							"    pm.expect(jsonData.films).not.equal('');\r",
+							"    pm.expect(jsonData.species).not.equal('');\r",
+							"    pm.expect(jsonData.vehicles).not.equal('');\r",
+							"    pm.expect(jsonData.starships).not.equal('');\r",
+							"});\r",
+							"//5. Check if field corresponds to a specific value\r",
+							"pm.test('Check if field corresponds to a specific value', function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.people).to.equal('http://swapi.dev/api/people/');\r",
+							"    pm.expect(jsonData.planets).to.equal('http://swapi.dev/api/planets/');\r",
+							"    pm.expect(jsonData.films).to.equal('http://swapi.dev/api/films/');\r",
+							"    pm.expect(jsonData.species).to.equal('http://swapi.dev/api/species/');\r",
+							"    pm.expect(jsonData.vehicles).to.equal('http://swapi.dev/api/vehicles/');\r",
+							"    pm.expect(jsonData.starships).to.equal('http://swapi.dev/api/starships/');\r",
+							"});\r",
+							"//6. status code is 200\r",
+							"pm.test('status code is 200', function(){\r",
+							"     pm.response.to.have.status(200);\r",
+							"});\r",
+							"//7. status message is ok\r",
+							"pm.test('status message is ok', function(){\r",
+							"     pm.response.to.have.status('OK');\r",
+							"});\r",
+							"//8. Response time is less than 1 sec\r",
+							"pm.test('Response time is less than 1 sec', function(){\r",
+							"     pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"//9. There is a spicific header in the response\r",
+							"pm.test('There is a spicific header in the response', function(){\r",
+							"    pm.response.to.have.header('Content-Type')\r",
+							"});\r",
+							"//10. The response has a specific header with a specific value\r",
+							"pm.test('The response has a specific header with a specific value', function(){\r",
+							"    pm.response.to.be.header('Content-Type', 'application/json')\r",
+							"});\r",
+							"//11. Check if cookie exist\r",
+							"pm.test('Check if cookie exist', function(){\r",
+							"    pm.cookies.has('test')\r",
+							"});\r",
+							"//12/ Check cookie has value\r",
+							"pm.test('Check cookie has value', function(){\r",
+							"    try{\r",
+							"        var MY_COOKIE = pm.cookies.get('test')\r",
+							"        console.log(MY_COOKIE);\r",
+							"    }   catch(e) {\r",
+							"            console.log('Some problem with cookie ->' + e)\r",
+							"    }\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"test\":\"value\"}"
+				},
+				"url": {
+					"raw": "https://swapi.dev/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						""
+					]
+				},
+				"description": "4"
+			},
+			"response": []
+		},
+		{
+			"name": "test2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"var schema = {\r",
+							"    //specify the type of object\r",
+							"    \"type\": \"object\",\r",
+							"    //specify required properties\r",
+							"    \"required\": [\"people\" ,\"planets\" , \"films\", \"species\", \"vehicles\", \"starships\"],\r",
+							"    //describe the properties\r",
+							"    \"properties\": {\r",
+							"        \"people\": {\"type\": \"string\"},\r",
+							"        \"planets\": {\"type\": \"string\"},\r",
+							"        \"films\": {\"type\": \"string\"},\r",
+							"        \"species\": {\"type\": \"string\"},\r",
+							"        \"vehicles\": {\"type\": \"string\"},\r",
+							"        \"starships\": {\"type\": \"string\"},\r",
+							"    }\r",
+							"};\r",
+							"pm.test('Body is correct', function(){\r",
+							"    //tv4 - обработка json схем, метод validate\r",
+							"    pm.expect(tv4.validate(data, schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"test\":\"value\"}"
+				},
+				"url": {
+					"raw": "https://swapi.dev/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"var schema = {\r",
+							"    \"type\": \"object\",\r",
+							"    \"requared\": [\"name\", \"homeworld\", \"films\", \"species\", \"vehicles\", \"starships\"],\r",
+							"    \"property\": {\r",
+							"        \"name\":{\"type\": \"string\"},\r",
+							"        \"homeworld\": {\"type\": \"string\"},\r",
+							"        \"films\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": {\"type\": \"string\"}\r",
+							"        },\r",
+							"        \"species\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": {\"type\": \"string\"}\r",
+							"        },\r",
+							"        \"vehicles\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": {\"type\": \"string\"}\r",
+							"        },\r",
+							"        \"starships\": {\r",
+							"            \"type\": \"array\",\r",
+							"            \"items\": {\"type\": \"string\"}\r",
+							"        },    \r",
+							"    }\r",
+							"\r",
+							"};\r",
+							"pm.test('Body is correct', function(){\r",
+							"    pm.expect(tv4.validate(data,schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"test\":\"value\"}"
+				},
+				"url": {
+					"raw": "https://swapi.dev/api/people/1",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						"1"
+					]
+				},
+				"description": "e"
+			},
+			"response": []
+		},
+		{
+			"name": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io",
+					"protocol": "https",
+					"host": [
+						"f6419ba9-2add-477c-a748-714d36160fc6",
+						"mock",
+						"pstmn",
+						"io"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io",
+							"protocol": "https",
+							"host": [
+								"f6419ba9-2add-477c-a748-714d36160fc6",
+								"mock",
+								"pstmn",
+								"io"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 04 Jul 2021 14:57:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-srv-trace",
+							"value": "v=1;t=0792eb70d00a8e2e"
+						},
+						{
+							"key": "x-srv-span",
+							"value": "v=1;s=a81498383992d079"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "120"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "119"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1625410727"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a4-7hO0T/XLq3TuFViTu2ZVQQdIY+A\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": {\n        \"name\": \"test\",\n        \"message\": \"success\"\n    }\n}"
+				},
+				{
+					"name": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Sveta\"}"
+						},
+						"url": {
+							"raw": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io/action",
+							"protocol": "https",
+							"host": [
+								"f6419ba9-2add-477c-a748-714d36160fc6",
+								"mock",
+								"pstmn",
+								"io"
+							],
+							"path": [
+								"action"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 04 Jul 2021 15:00:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-srv-trace",
+							"value": "v=1;t=0792eb70d00a8e2e"
+						},
+						{
+							"key": "x-srv-span",
+							"value": "v=1;s=a81498383992d079"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "120"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "119"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1625410727"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a4-7hO0T/XLq3TuFViTu2ZVQQdIY+A\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": {\n        \"name\": \"Sveta\",\n        \"status\": \"created\",\n        \"message\": \"success\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"Sveta\"}"
+				},
+				"url": {
+					"raw": "https://f6419ba9-2add-477c-a748-714d36160fc6.mock.pstmn.io/action",
+					"protocol": "https",
+					"host": [
+						"f6419ba9-2add-477c-a748-714d36160fc6",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"action"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
